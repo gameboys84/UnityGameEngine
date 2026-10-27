@@ -1,0 +1,18 @@
+# Machine-specific tools, editor preferences and local backups
+.vscode/
+.idea/
+.vs/
+.agents/
+.codex/
+/Design/local/
+/Design/research_notes/
+**/__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Generated reports, provenance inventories, patches and test output stay local.
+/Design/reports/
+/Design/scripts/mcp-session.txt
+
+# Unity-specific rules belong to UnityProject1/.gitignore.

@@ -1,0 +1,39 @@
+# Unity-generated caches and build output (relative to this Unity project).
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]in/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Bb]undles/
+/[Ss]erverData/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/HybridCLRData/
+/HybridCLRGenerate/
+/Assets/StreamingAssets/yoo/
+/Assets/StreamingAssets/yoo.meta
+
+# Unity-generated IDE projects and local export files.
+/*.csproj
+/*.unityproj
+/*.sln
+/*.slnx
+/*.suo
+/*.user
+/*.userprefs
+/*.DotSettings.user
+/.gradle/
+/ExportedObj/
+/*.apk
+/*.aab
+/*.ipa
+/*.unitypackage
+/*.log
+/sysinfo.txt
+/Assets/InitTestScene*.unity
+/Assets/InitTestScene*.unity.meta
+
+# Assets/.meta, package sources, plugin DLLs and ProjectSettings are inputs.

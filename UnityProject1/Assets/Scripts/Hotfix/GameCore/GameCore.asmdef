@@ -1,0 +1,12 @@
+{
+  "name": "GameCore",
+  "rootNamespace": "GameCore",
+  "references": [
+    "TEngine.Runtime",
+    "UniTask",
+    "Unity.ugui",
+    "Unity.TextMeshPro",
+    "Ni.GameCore"
+  ],
+  "autoReferenced": true
+}

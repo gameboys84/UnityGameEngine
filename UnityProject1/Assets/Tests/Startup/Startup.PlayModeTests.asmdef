@@ -1,0 +1,17 @@
+{
+  "name": "Startup.PlayModeTests",
+  "references": [
+    "Launcher",
+    "GameRuntime",
+    "GameCore",
+    "TEngine.Runtime",
+    "UniTask",
+    "YooAsset",
+    "Unity.ugui",
+    "Ni.GameCore"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "autoReferenced": false
+}

@@ -1,0 +1,12 @@
+{
+  "name": "GameRuntime",
+  "rootNamespace": "GameRuntime",
+  "references": [
+    "GameCore",
+    "TEngine.Runtime",
+    "UniTask",
+    "Unity.ugui",
+    "Ni.GameCore"
+  ],
+  "autoReferenced": true
+}
