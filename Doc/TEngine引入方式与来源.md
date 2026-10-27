@@ -50,9 +50,9 @@ TEngineNi 仍可 fetch/merge 原 TEngine 上游，但目录移动后的重复源
 
 初始框架来自 Ni 的 UnityProject/Assets/TEngine 及选取的 GameCore、生成器、本地依赖包。初始导入读取工作目录，未保存整套源码提交基线；`2b13c76ff4bd61048143288556d9791088f77bc7` 是当时及本轮迁移前的 Ni HEAD，不能证明初始全部文件等同该提交，也不包含本轮新包。
 
-DeadEmpire 提取的七个已记录来源文件：HVScrollRect、T4fContentSizeFitter、HoleImage、TextGradientColor、UnityEngineObjectExtention、TimeUtility、BezierUtils；另有改造后的集合、循环列表和图标加载用途。现归共享 GameCore 包。初始源哈希仅保留本机 reports，不能由当前文件原样重建。未迁入 DeadEmpire 城建、战斗、协议、账号、SDK、签名和整套资产。
+从 DeadEmpire 迁入的七类共用工具，整理后对应 HVScrollRect、ParentContentSizeFitter、HoleImage、TextGradientColor、UnityEngineObjectExtention、TimeUtility、BezierUtils；另有改造后的集合、循环列表和图标加载用途。现归共享 GameCore 包。初始源哈希仅保留本机 reports，不能由当前文件原样重建。未迁入 DeadEmpire 城建、战斗、协议、账号、SDK、签名和整套资产。
 
-`Design/scripts/import-foundation.ps1` 仅是历史首次导入记录，不是包升级工具；目标存在时会拒绝覆盖。候选比较与旧实现研究保留在 Design/notes，不能覆盖当前包化事实。后续审计通过 `audit-tengine-changes.ps1` 记录包身份、两边依赖、来源工作树 SHA256 和 Git diff，所有 reports 仍不入库。
+`Design/scripts/import-foundation.ps1` 是已停用的历史导入入口，执行时立即报错退出；安装或升级应使用独立包仓库的安装脚本或固定 Git 提交。候选比较与旧实现研究保留在 Design/notes，不能覆盖当前包化事实。后续审计通过 `audit-tengine-changes.ps1` 记录包身份、两边依赖、来源工作树 SHA256 和 Git diff，所有 reports 仍不入库。
 
 ## 包版本与上游版本
 

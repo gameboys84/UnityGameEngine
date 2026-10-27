@@ -17,7 +17,7 @@
 ## 辅助脚本
 
 - `scripts/audit-tengine-changes.ps1`：只读审计共享包身份、两边引用、源工作树 SHA256 与 Git diff，生成本机快照；不执行同步。
-- `scripts/import-foundation.ps1`：历史首次导入脚本，目标已存在时拒绝覆盖，不能当升级脚本重跑。
+- `scripts/import-foundation.ps1`：已停用的历史导入入口，立即报错退出；安装与升级改用 UPM 包工具。
 - `scripts/unity-mcp.ps1`：调用本机已存在的 MCP 服务；session 文件不入库。
 - `scripts/verify-repository.py`：检查暂存范围、忽略规则、元数据和本地包，不依赖已有报告。
 

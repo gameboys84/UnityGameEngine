@@ -61,7 +61,7 @@ DeadEmpire 的 `NetManager.InitSession` 绑定连接成功回调与消息队列�
 
 ## 4. 已从旧工程提取的部分
 
-`Design/reports/imported-source-manifest.json` 记录七个来源文件：HVScrollRect、T4fContentSizeFitter、HoleImage、TextGradientColor、UnityEngineObjectExtention、TimeUtility、BezierUtils。对应目标文件仍可在 GameCore 找到。
+`Design/reports/imported-source-manifest.json` 保留七类共用工具的原始迁入记录。整理后的当前类型为 HVScrollRect、ParentContentSizeFitter、HoleImage、TextGradientColor、UnityEngineObjectExtention、TimeUtility、BezierUtils，位于共享 GameCore 包。
 
 这说明已经做过有限的基础工具/UI 提取，不代表已迁入旧工程的网络、更新、UI 管理器或玩法。清单记录导入时的源哈希；本次未重新计算逐文件相似度，不能据此声称这些文件现在与来源完全一致。
 

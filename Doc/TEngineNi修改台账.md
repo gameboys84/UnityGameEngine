@@ -76,3 +76,9 @@
 - P03：Ni/FrameworkPackages 改为子模块，Ni 提交 `e1de1cdf620a9891bc180463c737265dd5daf60c` 已推送；原目录在本机 Design/local 备份。Ni 的锁文件共用包依赖按声明更新，尚未取得其独立 Editor 解析/PlayMode 验收。
 - 消费工程使用已发布 HTTPS Git SHA，Unity 生成 manifest/lock 配套记录；本轮重新验证结果见测试指南。EditorSettings 中用户已有的 Enter Play Mode Options 关闭值保留。
 - 新增同步范围仍遵循逐项确认规则；本轮授权不自动授权未来业务、Demo 或其他共用改动回传。
+
+## 2026-10-27 共用工具与 UI 扩展归口
+
+- C08：将 `UnityEngineObjectExtention`、`HVScrollRect`、`HoleImage`、`TextGradientColor` 及 `LoopScroll/*` 统一到 GameCore 命名空间，消除共用实现对全局及 Unity UI 命名空间的占用。布局组件使用 `ParentContentSizeFitter`，脚本与 .meta 成对迁移，保留原 GUID。补齐显式 UnityEngine/UI 引用及 Object 别名，方法逻辑未变。
+- 验证：包静态检查、五组基础检查通过；隔离消费工程 EditMode 3/3、PlayMode 10/10；12 个运行时类型归属正确，布局脚本 GUID 正确解析到新类，26 个 Prefab 缺失脚本为 0；51 份运行时元数据 GUID 核对一致。结果与差异补丁仅保存在忽略的 Design/reports/gamecore-cleanup-*。
+- 保留决定：按用户要求保留共用代码归口。修改仅在独立 UPM 工作树中，尚未提交/推送；Ni 子模块和当前消费工程仍固定原发布提交，未同步本次修改。外部代码使用旧类型位置时需调整命名空间和布局组件类型名。
