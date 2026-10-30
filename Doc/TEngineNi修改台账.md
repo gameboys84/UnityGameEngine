@@ -82,3 +82,19 @@
 - C08：将 `UnityEngineObjectExtention`、`HVScrollRect`、`HoleImage`、`TextGradientColor` 及 `LoopScroll/*` 统一到 GameCore 命名空间，消除共用实现对全局及 Unity UI 命名空间的占用。布局组件使用 `ParentContentSizeFitter`，脚本与 .meta 成对迁移，保留原 GUID。补齐显式 UnityEngine/UI 引用及 Object 别名，方法逻辑未变。
 - 验证：包静态检查、五组基础检查通过；隔离消费工程 EditMode 3/3、PlayMode 10/10；12 个运行时类型归属正确，布局脚本 GUID 正确解析到新类，26 个 Prefab 缺失脚本为 0；51 份运行时元数据 GUID 核对一致。结果与差异补丁仅保存在忽略的 Design/reports/gamecore-cleanup-*。
 - 保留决定：按用户要求保留共用代码归口。修改仅在独立 UPM 工作树中，尚未提交/推送；Ni 子模块和当前消费工程仍固定原发布提交，未同步本次修改。外部代码使用旧类型位置时需调整命名空间和布局组件类型名。
+
+## 2026-10-27 核心逻辑重写与项目程序集整理
+
+- C09：独立包 `com.ni.gamecore/Runtime/Logic` 新增 Ni.GameCore.Logic。包含表索引、ServerClock、BalanceLedger、OperationTimeline、报文读写、拆包、路由和 TcpPacketSession；无 Unity、项目门面或业务程序集依赖。目的为优先承接原逻辑的基础设施，并将协议、配置和表现从共用机制中分离。
+- 网络采用长度、节点与消息标识的通用帧格式；处理分片、粘包、扩展长度、取消、关闭、主线程 Pump 派发和有界收包。队列同时限制数量及总字节。鉴权、加密、压缩、产品协议和平台传输适配未接入。
+- D03：业务重写仅放在 UnityProject1 的 GameRuntime.LogicTests 与 GameRuntime 测试面板中。当前覆盖城建升级、科技前置、训练、资源扣除、加速、取消退款、确认结算、请求防重和快照恢复；数值为独立测试配置，未导入旧业务资产或服务地址。
+- A02：新增 GameProject.Editor、GameRuntime.LogicTests、GameLogic.EditModeTests 和 GameLogic.PlayModeTests，明确运行时、Editor、业务模型与测试边界。四份 Roslyn 插件导入设置经 Unity API 改为 Editor-only，原 GUID 保留。Unity MCP 固定工程已有提交，未升级依赖。
+- 验证：纯核心与业务模型 .NET Standard 2.1 构建 0 错误、0 警告；Unity EditMode 最终 30/30，PlayMode 11/11，均无失败或跳过；程序集归属/依赖环检查通过。原始证据和源文件哈希仅放 Design/reports/logic-rewrite-*。
+- 保留/回传：用户已要求以新结构重写共用核心与业务测试，本轮改动保留在独立包与当前工程工作树。未提交/推送，Ni 子模块未同步；当前工程已切本地开发包引用。后续发布仍需先推送验证过的包，再升级各消费工程固定提交与 AOT/裁剪配置。
+
+
+## 2026-10-31 提交前清理决定
+
+- 当前工程保留 D03 本地业务模型、规则资源、演示面板及回归测试，A02 保留程序集隔离与 Roslyn Editor-only 元数据；不包含生产业务或远端服务接入。
+- 删除与 Doc/LogicRewrite.md 重复的 Design 草稿及一次性 ProjectAssemblyTools 配置入口；精简 GameProject.Editor 的无用引用。现有 DLL 导入元数据及原 GUID 保留。
+- C09 共用逻辑仍属于回传候选，源码留在独立 TEngineNi_UPM 工作树；该工作树基于 5009668c98e1013b47bc90385497adc78c3d36ff，Logic 目录与包 README 尚未提交。本次仅提交 MyUnityFramework，不提交/推送包仓库，不推进 Ni 子模块；**未同步**。当前消费依赖本地工作树，仅检出消费仓库不能复现该依赖。

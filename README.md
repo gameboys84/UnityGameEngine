@@ -6,9 +6,9 @@
 
 1. 使用 **Unity 2022.3.62f2** 打开 `UnityProject1/`，等待依赖解析与编译。
 2. 打开 `Assets/Launcher/Scenes/Launcher.unity`，点击 Play，进入 Main。
-3. 通过主场景按钮检查资源、场景、存档、计时及假数据 UI。
+3. 通过主场景按钮检查资源、场景、存档、计时及假数据 UI；右下角 `LOGIC TESTS` 打开城建、研究、训练与资源事务测试面板。
 
-UniTask、YooAsset、HybridCLR 是 `Packages/` 内的本地源码包，必须随仓库保留；其余 UPM 依赖按 manifest/lock 解析，首次打开可能需要网络。两个 Ni 包通过独立的 [TEngineNi_UPM 仓库](https://github.com/gameboys84/TEngineNi_UPM) 固定 Git 提交引用。克隆本仓库后无需另行取得 TEngineNi 或 DeadEmpire 工程。首次解析需要能访问 GitHub；私有仓库需预先配置 Git 凭据。
+UniTask、YooAsset、HybridCLR 是 `Packages/` 内的本地源码包，必须随仓库保留；其余 UPM 依赖按 manifest/lock 解析，首次打开可能需要网络。当前处于逻辑重写开发阶段，两个 Ni 包通过相对路径引用同级 `TEngineNi_UPM` 工作树，需要同时取得该目录。稳定发布时再切换到已发布的固定 Git 提交；当前修改尚未发布。Unity MCP 已固定工程原有提交，避免开发期间隐式升级。
 
 ## 核心文档
 
@@ -20,6 +20,8 @@ UniTask、YooAsset、HybridCLR 是 `Packages/` 内的本地源码包，必须随
 | [TEngine引入方式与来源](Doc/TEngine引入方式与来源.md) | 共用包、修改/升级方式、源码来源与验证边界 |
 | [TEngineNi修改台账](Doc/TEngineNi修改台账.md) | 本地改动、回传候选与同步状态 |
 | [工程与版本管理约定](Doc/工程与版本管理约定.md) | Git 管理范围、忽略策略与文档维护 |
+| [程序集与目录结构](Doc/AssemblyLayout.md) | 共用逻辑、业务测试、运行时、Editor 和测试程序集边界 |
+| [核心逻辑与业务测试](Doc/LogicRewrite.md) | 新增核心 API、业务测试规则、入口和集成范围 |
 
 候选比较和未决定的设计见 [Design 索引](Design/README.md)，不作为已确定架构。运行验证目前主要来自 Windows Editor，移动发布、真实远端资源下载和 HybridCLR 代码更新仍待独立验收。
 

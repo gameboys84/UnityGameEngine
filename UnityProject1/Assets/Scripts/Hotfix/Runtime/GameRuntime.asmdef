@@ -6,7 +6,9 @@
     "TEngine.Runtime",
     "UniTask",
     "Unity.ugui",
-    "Ni.GameCore"
+    "Ni.GameCore",
+    "Ni.GameCore.Logic",
+    "GameRuntime.LogicTests"
   ],
   "autoReferenced": true
 }

@@ -42,6 +42,7 @@ namespace GameRuntime
             await GameModule.UI.ShowUIAsyncAwait<SlgHudWindow>(token);
             await GameModule.UI.ShowUIAsyncAwait<TipsWindow>(token);
             await GameModule.UI.ShowUIAsyncAwait<MarqueeWindow>(token);
+            LogicTestDashboard.Attach(gameObject);
             DemoUiReady = true;
         }
         public async UniTask Open<T>() where T : UIWindow, new()

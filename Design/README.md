@@ -20,5 +20,6 @@
 - `scripts/import-foundation.ps1`：已停用的历史导入入口，立即报错退出；安装与升级改用 UPM 包工具。
 - `scripts/unity-mcp.ps1`：调用本机已存在的 MCP 服务；session 文件不入库。
 - `scripts/verify-repository.py`：检查暂存范围、忽略规则、元数据和本地包，不依赖已有报告。
+- `scripts/verify-assemblies.py`：检查项目脚本程序集归属、循环依赖及纯逻辑层边界。
 
 `reports/` 整体忽略，包含来源清单、差异补丁、审计快照和测试结果，需要时重新生成。重要结论保留在核心文档；历史运行和原始导入哈希不能通过重跑原样还原。`local/` 仅存本机备份、一次性操作脚本和结构检查输出，默认忽略。

@@ -1,0 +1,10 @@
+{
+  "Rules": [
+    { "Id": 1, "Name": "Headquarters", "Kind": 0, "MaximumLevel": 3, "DurationMilliseconds": 3000, "Costs": [{"Key":"Food","Amount":100},{"Key":"Wood","Amount":100}], "Requirements": [] },
+    { "Id": 2, "Name": "Laboratory", "Kind": 0, "MaximumLevel": 2, "DurationMilliseconds": 2000, "Costs": [{"Key":"Food","Amount":50},{"Key":"Wood","Amount":100}], "Requirements": [{"RuleId":1,"Level":1}] },
+    { "Id": 3, "Name": "Barracks", "Kind": 0, "MaximumLevel": 2, "DurationMilliseconds": 2000, "Costs": [{"Key":"Food","Amount":100},{"Key":"Wood","Amount":50}], "Requirements": [{"RuleId":1,"Level":1}] },
+    { "Id": 101, "Name": "Production Research", "Kind": 1, "MaximumLevel": 3, "DurationMilliseconds": 4000, "Costs": [{"Key":"Food","Amount":80},{"Key":"Wood","Amount":80}], "Requirements": [{"RuleId":2,"Level":1}] },
+    { "Id": 102, "Name": "Advanced Research", "Kind": 1, "MaximumLevel": 2, "DurationMilliseconds": 5000, "Costs": [{"Key":"Food","Amount":120},{"Key":"Wood","Amount":120}], "Requirements": [{"RuleId":2,"Level":2},{"RuleId":101,"Level":1}] },
+    { "Id": 201, "Name": "Infantry Training", "Kind": 2, "MaximumLevel": 1, "DurationMilliseconds": 1000, "Costs": [{"Key":"Food","Amount":10},{"Key":"Wood","Amount":5}], "Requirements": [{"RuleId":3,"Level":1}] }
+  ]
+}

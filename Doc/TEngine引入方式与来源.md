@@ -1,6 +1,6 @@
 # TEngine 引入方式与来源
 
-更新：2026-10-27。共用 UPM 包独立发布到 [TEngineNi_UPM](https://github.com/gameboys84/TEngineNi_UPM)，消费工程通过完整 Git SHA 引用。
+更新：2026-10-27。共用 UPM 包由 [TEngineNi_UPM](https://github.com/gameboys84/TEngineNi_UPM) 维护。当前核心逻辑重写阶段临时采用本地工作树引用，新增内容尚未发布；稳定版本使用完整 Git SHA。
 
 ## 仓库与源码归属
 
@@ -9,12 +9,13 @@
 | 框架核心、事件、资源、场景、计时与编辑器工具 | TEngineNi_UPM/com.ni.tengine，版本 0.6.0 | TEngine.Runtime / TEngine.Editor |
 | UI、存档、单例、集合、资源引用、实例池、列表 | TEngineNi_UPM/com.ni.gamecore，版本 0.1.0 | Ni.GameCore；命名空间 GameCore |
 | UI 生成器、HTML 烘焙器和设置面板 | com.ni.gamecore/Editor | Ni.GameCore.Editor |
+| 报文、TCP、时钟、进度、表索引与事务逻辑 | com.ni.gamecore/Runtime/Logic | Ni.GameCore.Logic，无 Unity 依赖 |
 | GameModule、Ni GameApp/IEvent/Network、协议与业务配置 | 各自工程 Assets | 各项目 GameCore / GameRuntime |
 | 启动器、资源采集、HTML、输入与生成设置 | 各自 Assets / ProjectSettings | 项目管理 |
 
 TEngineNi 的 `tengineni_upm` 分支保留原 fork 历史，并以 `FrameworkPackages` Git 子模块引用独立包仓库。Ni UnityProject 中的两个 `file:../../FrameworkPackages/<包名>` 引用保持可用。克隆 Ni 后执行 `git submodule update --init FrameworkPackages`；修改包需在子模块建立分支并提交，随后提交父仓库指针。
 
-本工程发布到 UnityGameEngine，两个 Ni 包采用 `https://github.com/gameboys84/TEngineNi_UPM.git?path=/<包名>#<完整SHA>`。无需同级 Ni 检出目录，manifest/lock 一同入库。UniTask 2.5.11、YooAsset 2.3.17、HybridCLR 8.8.0 继续保留当前嵌入包，避免改变已验证依赖。全新项目可使用包仓库 README 的五项 Git 安装模板或 Tools/Install-NiPackages.ps1；包内 package.json 不能声明传递 Git URL。
+本工程发布到 UnityGameEngine。当前开发 manifest 使用 `file:../../../TEngineNi_UPM/<包名>`，需取得同级独立包工作树。稳定消费地址为 `https://github.com/gameboys84/TEngineNi_UPM.git?path=/<包名>#<完整SHA>`，届时无需同级源码目录，manifest/lock 一同入库。UniTask 2.5.11、YooAsset 2.3.17、HybridCLR 8.8.0 继续保留当前嵌入包。全新项目可使用包仓库完整安装模板或 Tools/Install-NiPackages.ps1；包内 package.json 不能声明传递 Git URL。
 
 ## 修改、上游同步与升级
 
