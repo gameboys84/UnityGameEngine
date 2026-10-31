@@ -1,0 +1,14 @@
+{
+  "name": "GameRuntime",
+  "rootNamespace": "GameRuntime",
+  "references": [
+    "GameCore",
+    "TEngine.Runtime",
+    "UniTask",
+    "UnityEngine.UI",
+    "Ni.GameCore",
+    "Ni.GameCore.Logic",
+    "GameRuntime.LogicTests"
+  ],
+  "autoReferenced": true
+}

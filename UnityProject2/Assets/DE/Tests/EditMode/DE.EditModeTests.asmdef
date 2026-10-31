@@ -1,0 +1,7 @@
+{
+  "name": "DE.EditModeTests",
+  "references": ["DE.Domain", "DE.Application", "DE.Infrastructure"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

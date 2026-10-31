@@ -40,3 +40,8 @@ UnityProject1/Tools/    本地/Git 框架依赖切换工具
 ```
 
 工程发布到 [UnityGameEngine](https://github.com/gameboys84/UnityGameEngine)。更新框架时先验证 UPM 仓库提交，再同步本工程的 manifest/lock；具体流程见来源说明。
+
+## DE 客户端重构（开发中）
+
+新增 UnityProject2，目标为完整 DE 客户端重写。当前优先实现真实启动至 LOGIN_ACK，已在Windows Editor通过dev引导、真实鉴权、会话token/Pike、有效LOGIN_ACK和心跳验证；后续数据与主城开发暂停，Player构建未验收。历史 Mock 原型不作为验收结果。见 [DE重构架构与运行](Doc/DE重构架构与运行.md) 和 [DE功能覆盖矩阵](Doc/DE功能覆盖矩阵.md)。
+

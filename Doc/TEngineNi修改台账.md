@@ -98,3 +98,18 @@
 - 当前工程保留 D03 本地业务模型、规则资源、演示面板及回归测试，A02 保留程序集隔离与 Roslyn Editor-only 元数据；不包含生产业务或远端服务接入。
 - 删除与 Doc/LogicRewrite.md 重复的 Design 草稿及一次性 ProjectAssemblyTools 配置入口；精简 GameProject.Editor 的无用引用。现有 DLL 导入元数据及原 GUID 保留。
 - C09 共用逻辑仍属于回传候选，源码留在独立 TEngineNi_UPM 工作树；该工作树基于 5009668c98e1013b47bc90385497adc78c3d36ff，Logic 目录与包 README 尚未提交。本次仅提交 MyUnityFramework，不提交/推送包仓库，不推进 Ni 子模块；**未同步**。当前消费依赖本地工作树，仅检出消费仓库不能复现该依赖。
+
+## 2026-10-31 UnityProject2 编译修复
+
+- C10：修正 TEngine.Runtime、TEngine.Editor、Ni.GameCore、Ni.GameCore.Editor 四份 asmdef 的 UGUI 引用，从不存在的 Unity.ugui 改为实际程序集 UnityEngine.UI。UPM 包名仍是 com.unity.ugui，不更改包版本或来源，不修改运行时逻辑和 GUID。
+- 依据：UnityProject2 实际 com.unity.ugui@1.0.0/Runtime/UnityEngine.UI.asmdef 的 name；包名与程序集名不能混用。UnityProject2 项目自身 11 份 asmdef 已同样修正；10 个 DE 程序集按实际源码离线编译通过，不再采用引用别名映射。
+- 验证边界：离线编译依赖已安装 Unity 2022.3.62f2 参考程序集和底座缓存，Editor 重启后包解析已恢复，实际 Unity 编译通过，DE.Production.Network 的 Editor 测试18/18通过；真实鉴权仍在联调，此项不代表登录验收。另已修复 Start-DE.ps1 缺失 ALLUSERSPROFILE 造成的 UPM 全局配置路径异常，独立只读 UPM registry API 返回 HTTP 200。
+- 保留/回传：为本次新工程修错在共用包权威工作树保留最小引用修正；未提交、未推送、未发布，Ni 子模块未更新，未同步。差异补丁保存在忽略的 Design/reports/de-rebuild/ugui-package-reference.patch。
+
+
+## 2026-10-31 按 package 提交
+
+- 用户授权先提交 Git，并按 package 分开保存。独立 TEngineNi_UPM 中：`eac3d5a` 仅包含 com.ni.tengine 的 UGUI 引用修复；`706f398` 包含 com.ni.gamecore 的纯逻辑、TCP 会话、UGUI 引用修复和包说明。
+- C09/C10 已提交到独立包仓库本地 Git，不再属于未提交工作树。当前工程保持本地包引用；未推送、未发布、未更新 TEngineNi 的 FrameworkPackages 子模块，**未同步**。不为填写版本擅自切换 Git revision。
+- 用户确认新工程可以运行，但现有日志不足以判断实际执行阶段。本轮仅保存现状，未重新连接真实服务或运行 Unity 测试；既有真实链路与测试记录均保留原验证边界。
+- 提交前静态审计：UnityProject2 的 GUID、脚本归属与程序集依赖检查通过，来源覆盖脚本单测 3/3。严格入口扫描仍发现历史 DeRuntimeHost 的 CreateMock；实际 DeGameEntry 调用生产入口，此历史文件尚未按该门禁要求隔离，记录为待处理项。

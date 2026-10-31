@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f8e08993834c480c9a9bb9fbad1e0ccf
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: NotoSansCJKsc-Regular-subset
+  fontNames:
+  - NotoSansCJKsc-Regular-subset
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,7 @@
+{
+  "name": "DE.IntegrationTests",
+  "references": ["DE.Bootstrap", "DE.Application", "DE.Presentation", "Launcher", "TEngine.Runtime", "Ni.GameCore", "UnityEngine.UI"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+  "autoReferenced": false
+}

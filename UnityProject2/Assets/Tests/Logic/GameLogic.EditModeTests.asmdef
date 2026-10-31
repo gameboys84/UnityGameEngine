@@ -1,0 +1,7 @@
+{
+  "name": "GameLogic.EditModeTests",
+  "references": ["Ni.GameCore.Logic", "GameRuntime.LogicTests"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

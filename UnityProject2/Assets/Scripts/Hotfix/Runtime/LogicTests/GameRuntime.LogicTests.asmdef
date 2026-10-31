@@ -1,0 +1,7 @@
+{
+  "name": "GameRuntime.LogicTests",
+  "rootNamespace": "GameRuntime.LogicTests",
+  "references": ["Ni.GameCore.Logic"],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

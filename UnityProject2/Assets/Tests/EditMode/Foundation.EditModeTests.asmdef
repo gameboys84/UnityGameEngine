@@ -1,0 +1,17 @@
+{
+  "name": "Foundation.EditModeTests",
+  "references": [
+    "GameCore",
+    "TEngine.Runtime",
+    "UniTask",
+    "UnityEngine.UI",
+    "Ni.GameCore"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "autoReferenced": false
+}

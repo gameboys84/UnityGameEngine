@@ -1,0 +1,7 @@
+{
+  "name": "DE.Infrastructure",
+  "rootNamespace": "DE.Infrastructure",
+  "references": ["DE.Domain", "DE.Application"],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

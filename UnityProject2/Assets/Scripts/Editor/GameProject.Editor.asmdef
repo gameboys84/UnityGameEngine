@@ -1,0 +1,17 @@
+{
+  "name": "GameProject.Editor",
+  "references": [
+    "Launcher",
+    "GameCore",
+    "GameRuntime",
+    "Ni.GameCore",
+    "TEngine.Runtime",
+    "YooAsset",
+    "YooAsset.Editor",
+    "UnityEngine.UI"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

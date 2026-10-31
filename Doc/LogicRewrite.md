@@ -37,6 +37,6 @@ The dashboard uses a local simulated authority and a separate logic-test save fi
 
 This covers the first dependency chain from shared mechanisms to settlement tests. Product login, generated protocol schemas, production tables, world maps, marching, combat, guilds, activities, payments and platform integrations remain separate work. The source project is read-only. Source evidence and temporary results are kept in ignored Design reports.
 
-The development manifest references the local UPM working tree. Commit publication, the Ni submodule pointer and stable Git package pins have not been advanced by this work.
+The development manifest references the local UPM working tree. The logic is saved in local package commit `706f398`; remote publication, the Ni submodule pointer and stable Git package pins have not been advanced.
 
-The local package HEAD is `5009668c98e1013b47bc90385497adc78c3d36ff`, with the Logic sources and package README still uncommitted. Checking out this consumer repository alone does not reproduce that dependency. The consumer commit does not publish the packages or authorize synchronization to Ni.
+The shared package commits are `eac3d5a` (TEngine UGUI references) and `706f398` (GameCore logic and UGUI references), saved separately at the user's request. They have not been pushed. Checking out this consumer repository alone does not reproduce the local package dependency. No Ni synchronization was performed.

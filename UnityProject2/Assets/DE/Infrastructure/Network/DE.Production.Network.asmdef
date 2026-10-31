@@ -1,0 +1,11 @@
+{
+  "name": "DE.Production.Network",
+  "rootNamespace": "DE.Infrastructure.Network",
+  "references": [],
+  "includePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": ["Newtonsoft.Json.dll"],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

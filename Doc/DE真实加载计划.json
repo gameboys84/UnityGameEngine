@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "sourceProject": "E:/TAP/DE/DeadEmpire-DEV",
+  "protocolVersion": 72,
+  "sourceMethod": "Assets/Scripts/FromLua/GameLoadingMgr.cs:TypeGameStart/StartNextStep/DoStartStep",
+  "interpretation": "Faithful source loading plan. Issued steps are not data-ready barriers. No fake completion or fabricated responses.",
+  "execution": {
+    "startBarriers": ["REGISTER_AND_LOGINING", "USER_INFO"],
+    "finalCompletionRequiresAllNonDoneSteps": true,
+    "acceptEarlyCachedNotifications": true,
+    "earlyCacheScope": "Current authenticated connection and role only; clear on reconnect/account generation change.",
+    "commonAck": "Match m_api to the exact request. Any nonzero error must remain visible/retryable; never mark required data ready. Never consume unrelated heartbeat acknowledgements.",
+    "pumping": "Original GameStateSplash invokes UpdateStep up to 15 times/frame; issue through start barrier then allow other nonbarrier reads concurrently. Pump inbound data on main thread.",
+    "completionModes": {"response": "Required data/condition must be satisfied before final DONE", "issued": "Original marks done immediately after conditionally issuing requests; responses still update modules", "aggregate": "No wire message; requires all preceding milestones"}
+  },
+  "steps": [
+    {
+      "order": 1, "name": "REGISTER_AND_LOGINING", "legacyEnum": 1, "legacyStartWait": true, "completionMode": "response",
+      "requests": [{"message": "LOGIN_REQ", "payloadType": "LoginInfo", "fields": "Full source LoginMgr login fields after HTTP auth and SESSION_TOKEN_NTF; connection layer owns this request", "owner": "connection"}],
+      "responses": ["LOGIN_ACK"], "condition": "LOGIN_ACK decoded successfully for chosen role and NetMessageMgr.isLogin true; COMMON_ACK for LOGIN_REQ is not a success response",
+      "effects": ["Update userInfo from actual login response", "Reset login/reconnect state", "Initialize avatar/login state without logging jwt or credentials"],
+      "source": ["Assets/Scripts/FromLua/Login/LoginMgr.cs:AckHandlerLogin", "Assets/Scripts/FromLua/GameLoadingMgr.cs:DoStartStep"]
+    },
+    {
+      "order": 2, "name": "SYNC_TIME", "legacyEnum": 15, "legacyStartWait": false, "completionMode": "response",
+      "requests": [], "responses": ["TIME_NTF"], "condition": "Valid TimeNtfInfo.m_t received for this connection; unsolicited notification may arrive before loading coordinator starts",
+      "effects": ["timebase.tLocal=local monotonic ms; tServer=m_t; tRunTotal/tLastUpdate=0", "hasSyncTime=true"],
+      "source": ["Assets/Scripts/FromLua/GameGlobalData.cs:NtfHandlerBaseTime"]
+    },
+    {
+      "order": 3, "name": "USER_INFO", "legacyEnum": 2, "legacyStartWait": true, "completionMode": "response",
+      "requests": [{"message": "RES_REQ", "payloadType": null, "fields": {}}], "responses": ["RES_NTF"],
+      "condition": "Valid complete UserAssets notification applied; this misleading step name refers to resources, not USER_INFO_NTF",
+      "effects": ["Replace authoritative userAssets", "Initialize current food/energy/oil/steel/cash/d2o/rareEarth presentation values", "Notify item resource update"],
+      "source": ["Assets/Scripts/FromLua/GameGlobalData.cs:RequestUserAssets/NtfHandlerUserAssets"]
+    },
+    {
+      "order": 4, "name": "SAVE_INFO", "legacyEnum": 4, "legacyStartWait": false, "completionMode": "response",
+      "requests": [{"message": "CLIENT_LOAD_V2_REQ", "payloadType": "ClientLoadV2ReqInfo", "fields": {"m_ver": 3}}], "responses": ["CLIENT_LOAD_ACK"],
+      "condition": "ClientSaveInfo parsed and tutorial state initialized; empty content means new tutorial data, not skip tutorial",
+      "effects": ["Parse TutorialSaveData_B2 JSON", "New save defaults order1/step0/tutorialVer3", "Original old incomplete tutorial migration writes order100/step100/isStepComplete=true and sends CLIENT_SAVE_REQ; record this write explicitly if retained"],
+      "source": ["Assets/Scripts/UINew/Tutorial/TutorialB2Mgr.cs:RequestLoadInfo/AckHandleLoadInfo/LoadData"]
+    },
+    {
+      "order": 5, "name": "DAILY_LOGS_INFO", "legacyEnum": 5, "legacyStartWait": false, "completionMode": "response",
+      "requests": [{"message": "DAILY_EVENT_REQ", "payloadType": null, "fields": {}}], "responses": ["DAILY_EVENT_ACK"],
+      "condition": "DailyEventInfo parsed and SetRawQuestInfo applied", "effects": ["Populate daily event state"],
+      "source": ["Assets/Scripts/FromLua/GameDataInterface/DailyQuestInterface.cs:RequestDailyEventReq/AckHandlerDailyEvent"]
+    },
+    {
+      "order": 6, "name": "NATION_QUEST_INFO", "legacyEnum": 6, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "QUEST_LIST_REQ", "payloadType": "QuestListReqInfo", "fields": {"m_begin_id": 0}}], "responses": ["QUEST_LIST_ACK"],
+      "condition": "Original marks step done immediately after sending; response populates actual quest list", "effects": ["Request all main quest progress from begin id0"],
+      "source": ["Assets/Scripts/FromLua/GameDataInterface/QuestInterface.cs:RequestAllQuestLst/AckHandleQuestList"]
+    },
+    {
+      "order": 7, "name": "DAILY_AND_ALLIANCE_INFO", "legacyEnum": 7, "legacyStartWait": false, "completionMode": "response",
+      "requests": [
+        {"message": "GET_DAILY_QUEST_LIST_REQ", "payloadType": "GetDailyQuestListReqInfo", "fields": {}, "condition": "Original throttles nowServerTime-pre_requestServerTime>500 unless forced"},
+        {"message": "CLIENT_DATA_LOAD_REQ", "payloadType": "ClientDataKey", "fields": {"m_key": "SaveBlackListData"}},
+        {"message": "QUEST_COUNTDOWN_LIST_REQ", "payloadType": null, "fields": {}}
+      ],
+      "responses": ["GET_DAILY_QUEST_LIST_ACK", "CLIENT_DATA_LOAD_ACK", "QUEST_COUNTDOWN_LIST_ACK"],
+      "condition": "Only CLIENT_DATA_LOAD_ACK with ClientDataInfo.m_key exactly SaveBlackListData marks this legacy milestone done; unrelated key ACKs must not satisfy it",
+      "effects": ["Daily quest list and countdown updates processed independently", "ClientSaveDataMgr.Set(m_key,m_value)", "Blacklist application code is commented in source; do not invent its effect"],
+      "source": ["Assets/Scripts/FromLua/GameDataInterface/QuestInterface.cs:RequestGetDailyQuestList/RequestQuestCountDownList", "Assets/Scripts/FromLua/ClientSaveData/ClientSaveDataMgr.cs:RequestLoadClientData/AckHandlerLoadClientData"]
+    },
+    {
+      "order": 8, "name": "MAIL_INFO", "legacyEnum": 8, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "GET_RTF_MAIL_LIST_REQ", "payloadType": "GetRtfMailListReqInfo", "repeat": [1,2,3,4], "fields": {"m_start_id": "0", "m_mail_type": "each repeat category: personal1,guild2,report3,system4", "m_direction": false, "m_count": 500}}],
+      "responses": ["GET_RTF_MAIL_LIST_ACK"], "condition": "Four requests issued, no wait for mail lists in original step", "effects": ["Initialize each mail category", "Unsubscribe/resubscribe one reconnect handler to avoid duplicate refreshes"],
+      "source": ["Assets/Scripts/UINew/Mail/MailManager.cs:InitMailListFromServer/RequireMailList"]
+    },
+    {
+      "order": 9, "name": "ALLIANCE_INFO", "legacyEnum": 9, "legacyStartWait": false, "completionMode": "response",
+      "requests": [{"message": "ALLIANCE_MEMBER_REQ", "payloadType": "AllianceReqInfo", "fields": {"m_alliance_id": "CurrentUser.m_alliance.m_id"}, "condition": "allianceId!=0"}],
+      "responses": ["ALLIANCE_MEMBER_ACK"], "skipWhen": "CurrentUser.m_alliance.m_id==0; complete without request",
+      "condition": "No alliance OR AllianceMemberAckInfo.m_brief.m_alliance_id equals current own alliance; do not accept another alliance's response",
+      "effects": ["Update ownAllianceInfo/members/permissions and related minimap/territory state", "Original sorts member names/permissions"],
+      "source": ["Assets/Scripts/FromLua/Alliance/AllianceManagement.cs:InitAllianceInfo", "Assets/Scripts/FromLua/GameState/AllianceMgr.cs:RequireSpecialAllianceInfo/AckHandlerSpecialAllianceInfo"]
+    },
+    {
+      "order": 10, "name": "HELP_INFO", "legacyEnum": 11, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "ALLIANCE_LIST_HELP_REQ", "payloadType": null, "fields": {}, "condition": "CurrentUser.m_alliance.m_id!=0"}], "responses": ["ALLIANCE_LIST_HELP_ACK"],
+      "skipWhen": "No alliance; complete without request", "condition": "Original marks done immediately after conditional send", "effects": ["Apply alliance help list when response arrives"],
+      "source": ["Assets/Scripts/FromLua/GameDataInterface/AllianceHelpInterface.cs:RequestAllianceListHelp/AckHandleAllianceListHelp"]
+    },
+    {
+      "order": 11, "name": "CONFIG_CONST", "legacyEnum": 3, "legacyStartWait": false, "completionMode": "response",
+      "requests": [{"message": "CONST_REQ", "payloadType": "ConstReq", "fields": {"m_keyword": "max_building_level"}}], "responses": ["CONST_ACK"],
+      "condition": "ConstInfo received; original marks any nonnull ConstInfo done, robust new coordinator should correlate keyword=max_building_level without silently accepting another request",
+      "effects": ["Store ConfigConst[m_keyword]=m_val when key nonempty"],
+      "source": ["Assets/Scripts/FromLua/GameGlobalData.cs:RequireConfigConst/AckHandlerConfigConst"]
+    },
+    {
+      "order": 12, "name": "CITY_INFO", "legacyEnum": 13, "legacyStartWait": false, "completionMode": "response",
+      "requests": [{"message": "BUILDING_INFO_REQ", "payloadType": null, "fields": {}}], "responses": ["BUILDING_NTF"],
+      "condition": "Own building list notification parsed and applied; BUILDING_UPGRADE_ACK is not this milestone", "effects": ["Populate building state, tile/building IDs and build progress from full notification", "Drive actual city model after scene loads"],
+      "source": ["Assets/Scripts/FromLua/CityBuild/OwnBuildingMgr.cs:RequestBuildingOwnList/NtfHandlerOwnBuilding"]
+    },
+    {
+      "order": 13, "name": "RESEARCH_LIST_INFO", "legacyEnum": 14, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "GET_RESEARCH_LIST_REQ", "payloadType": "GetResearchListReqInfo", "fields": {"m_start_type": 0}}], "responses": ["GET_RESEARCH_LIST_ACK"],
+      "condition": "Original marks issued immediately; response replaces research list and updates lock flags/UI", "effects": ["Rebuild gResearchList from response, no local invented tech levels"],
+      "source": ["Assets/Scripts/FromLua/Research/ResearchMgr.cs:RequestGetResearchList/AckHandlerGetResearchList"]
+    },
+    {
+      "order": 14, "name": "RALLY_LIST", "legacyEnum": 18, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [
+        {"message": "RALLY_LIST_REQ", "payloadType": null, "fields": {}, "condition": "in alliance and normal world; GVG branch uses GVG_RALLY_LIST_REQ with map guid and node"},
+        {"message": "RALLY_DEFENCE_REQ", "payloadType": null, "fields": {}, "condition": "no alliance and HQ>=15 and normal world not locked; GVG branch uses GVG_RALLY_DEFENCE_REQ"},
+        {"message": "KVK_RALLY_LIST_REQ", "payloadType": null, "fields": {}, "condition": "KVK not ended and in alliance"},
+        {"message": "RALLY_DEFENCE_REQ", "payloadType": null, "fields": {}, "condition": "KVK not ended, no alliance and HQ>=15; source KVK personal branch reuses this nonKVK symbol"}
+      ],
+      "responses": ["RALLY_LIST_ACK", "RALLY_DEFENCE_ACK", "KVK_RALLY_LIST_ACK", "GVG_RALLY_LIST_ACK", "GVG_RALLY_DEFENCE_ACK"],
+      "skipWhen": "No alliance and HQ<15; KVK branch also skips when ended", "condition": "Original marks immediately after RequireRallyList and RequireKVKRallyList",
+      "effects": ["Populate ordinary/KVK rally lists separately; do not fabricate KVK progress before its data is known"],
+      "source": ["Assets/Scripts/FromLua/CityBuild/HallOfWarMgr.cs:RequireRallyList/RequireKVKRallyList/RequirePersonalRallyList/RequireAllianceRallyList"]
+    },
+    {
+      "order": 15, "name": "JOIN_APPLY_LIST", "legacyEnum": 19, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "GET_ALLIANCE_RESEARCH_LIST_REQ", "payloadType": "GetAllianceResearchListReqInfo", "fields": {"m_type": 0}, "condition": "CurrentUser.m_alliance.m_id>0"}],
+      "responses": ["GET_ALLIANCE_RESEARCH_LIST_ACK"], "skipWhen": "No alliance", "condition": "Issued/skipped immediately. Despite the step name this requests alliance technology, NOT join applications", "effects": ["Apply alliance research state"],
+      "source": ["Assets/Scripts/UINew/Alliance/AllianceTechnologyMgr.cs:RequireResearchList/AckHandlerResearchList"]
+    },
+    {
+      "order": 16, "name": "PERSONAL_INVITE_LIST", "legacyEnum": 20, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "LIST_INVITE_REQ", "payloadType": null, "fields": {}, "condition": "CurrentUser.m_alliance.m_id==0"}],
+      "responses": ["LIST_INVITE_ACK"], "skipWhen": "Already in alliance", "condition": "Original marks immediately after conditional request", "effects": ["Update personal alliance invitations"],
+      "source": ["Assets/Scripts/FromLua/Alliance/AllianceManagement.cs:RequireInviteOwnList/AckHandlerReqInviteOwnList"]
+    },
+    {
+      "order": 17, "name": "ALLIANCE_GIFT", "legacyEnum": 22, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "LIST_ALLIANCE_GIFT_REQ", "payloadType": "ListAllianceGiftReqInfo", "fields": {"m_drop_expired": false}, "condition": "CurrentUser.m_alliance.m_id!=0"}, {"message": "ALLIANCE_FORTUNE_GIFT_REQ", "payloadType": null, "fields": {}, "condition": "CurrentUser.m_alliance.m_id!=0"}],
+      "responses": ["LIST_ALLIANCE_GIFT_ACK", "ALLIANCE_FORTUNE_GIFT_ACK"], "skipWhen": "No alliance", "condition": "Original marks immediately after request/skip", "effects": ["Unsubscribe then subscribe AllianceGiftMgr reconnect callback exactly once", "Populate gift list and fortune chest, no claim requests at startup"],
+      "source": ["Assets/Scripts/FromLua/Alliance/AllianceGift.cs:RequireGiftList/RequestAsFortuneChest"]
+    },
+    {
+      "order": 18, "name": "EXPEDITION_INFO", "legacyEnum": 23, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "EXPEDITION_STATE_REQ", "payloadType": null, "fields": {}}, {"message": "EXPEDITION_STORE_INFO_REQ", "payloadType": null, "fields": {}}],
+      "responses": ["EXPEDITION_STATE_ACK", "EXPEDITION_STORE_INFO_ACK"], "condition": "Original marks after issuing both", "effects": ["Register UTC midnight refresh once", "Populate expedition state/store without starting challenge or buying"],
+      "source": ["Assets/Scripts/Expedition/ExpeditionMgr.cs:ReqExpeditionState/RegisterEventUTCZeroPoint/ReqExpeditionStoreInfo"]
+    },
+    {
+      "order": 19, "name": "SERVER_SETTING", "legacyEnum": 24, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "GET_SETTING_REQ", "payloadType": null, "fields": {}}], "responses": ["GET_SETTING_ACK"], "condition": "Original marks immediately; settings callback also marks done on certain errors", "effects": ["Apply server settings; do not send setting writes merely for acceptance"],
+      "source": ["Assets/Scripts/FromLua/other/SettingMgr.cs:RequireSettingInfo/AckHandlerSettingInfo"]
+    },
+    {
+      "order": 20, "name": "GOVERNMENT_INFO", "legacyEnum": 25, "legacyStartWait": false, "completionMode": "issued",
+      "requests": [{"message": "GOV_INFO_REQ", "payloadType": null, "fields": {}}], "responses": ["GOV_INFO_ACK"], "condition": "Original marks immediately", "effects": ["Populate government state; no appointments or other mutations"],
+      "source": ["Assets/Scripts/UINew/Government/GovernmentMgr.cs:RequestGovInfo/AckHandlerGovInfo"]
+    },
+    {
+      "order": 21, "name": "DONE", "legacyEnum": 29, "legacyStartWait": false, "completionMode": "aggregate",
+      "requests": [], "responses": [], "condition": "All previous step conditions completed; FinishLoading invoked once; no success on timeout",
+      "effects": ["Reset curStepWaitingIndex=Invalid and hide loading", "Legacy FinishLoading requests IAP product lists (read-only catalog, not purchase)", "Legacy loads ShutUpTime/GetFaceBookReward and writes client version/platform; these server writes must be explicitly accounted for and omitted during read-only acceptance unless approved", "Load local Agent/invite/explore/collect/march/KVK/radar/activity-board cache and isolate by role"],
+      "source": ["Assets/Scripts/FromLua/GameLoadingMgr.cs:StartNextStep/FinishLoading/LoadLocalData"]
+    }
+  ],
+  "cityReadiness": {"loadingDoneIsNotSceneReady": true, "requires": ["all required loading milestones", "actual migrated main_city scene activated", "MainUI/HUD constructed", "building models and resource labels reflect server state", "input not blocked by stale loading overlay"], "legacyPredicate": "NCurrentStateID==STATE_CITYBUILD && BCurrentSceneHasLoad"}
+}

@@ -1,0 +1,6 @@
+{
+  "name": "DE.Production.Runtime",
+  "rootNamespace": "DE.Production.Runtime",
+  "references": ["DE.Production.Network", "DE.Production.Data", "DE.Presentation.LegacyUI", "TEngine.Runtime", "Ni.GameCore", "UniTask", "YooAsset", "UnityEngine.UI"],
+  "autoReferenced": true
+}

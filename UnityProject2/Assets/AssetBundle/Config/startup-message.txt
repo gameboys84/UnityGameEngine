@@ -1,0 +1,2 @@
+Your game is ready.
+Scene and content loaded successfully.

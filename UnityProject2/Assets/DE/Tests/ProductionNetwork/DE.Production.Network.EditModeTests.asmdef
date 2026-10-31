@@ -1,0 +1,7 @@
+{
+  "name": "DE.Production.Network.EditModeTests",
+  "references": ["DE.Production.Network"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

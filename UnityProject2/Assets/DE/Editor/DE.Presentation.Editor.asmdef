@@ -1,0 +1,6 @@
+{
+  "name": "DE.Presentation.Editor",
+  "references": ["DE.Presentation", "UnityEngine.UI"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

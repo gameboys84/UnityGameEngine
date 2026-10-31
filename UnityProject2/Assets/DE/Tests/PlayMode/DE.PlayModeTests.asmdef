@@ -1,0 +1,6 @@
+{
+  "name": "DE.PlayModeTests",
+  "references": ["DE.Domain", "DE.Application", "DE.Infrastructure", "DE.Presentation", "UnityEngine.UI"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

@@ -1,0 +1,6 @@
+{
+  "name": "DE.Presentation.LegacyUI",
+  "rootNamespace": "DE.Presentation.LegacyUI",
+  "references": ["Ni.GameCore", "TEngine.Runtime", "UnityEngine.UI", "UniTask"],
+  "autoReferenced": true
+}

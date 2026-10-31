@@ -1,0 +1,19 @@
+{
+  "name": "DE.Bootstrap.Editor",
+  "references": [
+    "Launcher",
+    "DE.Bootstrap",
+    "DE.Presentation.Editor",
+    "DE.Production.Runtime",
+    "UniCli.Server.Editor",
+    "DE.Production.Network",
+    "DE.Presentation.LegacyUI",
+    "UnityEngine.UI",
+    "DE.Login.Validation.Input"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "GameLogic.PlayModeTests",
+  "references": ["GameRuntime", "GameRuntime.LogicTests", "Ni.GameCore.Logic", "Ni.GameCore", "TEngine.Runtime"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

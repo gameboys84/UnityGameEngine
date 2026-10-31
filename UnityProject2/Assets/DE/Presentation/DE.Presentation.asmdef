@@ -1,0 +1,6 @@
+{
+  "name": "DE.Presentation",
+  "rootNamespace": "DE.Presentation",
+  "references": ["DE.Domain", "DE.Application", "Ni.GameCore", "TEngine.Runtime", "UnityEngine.UI", "UniTask"],
+  "autoReferenced": true
+}

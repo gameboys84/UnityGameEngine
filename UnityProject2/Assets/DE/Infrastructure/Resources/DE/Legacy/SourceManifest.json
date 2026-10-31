@@ -1,0 +1,32 @@
+{
+  "format": 1,
+  "source": "DeadEmpire-DEV/Assets/StreamingAssets/GameData/gameData.pack",
+  "tables": [
+    {
+      "table": "building_KKeys",
+      "count": 536,
+      "sha256": "0c0b5c33437117897ef38285010ccbf5871731f0651773cc30fadc69ff68da04"
+    },
+    {
+      "table": "building_pos_KPos",
+      "count": 69,
+      "sha256": "07a0d6c1f06b1d0b93705e78863cb7136632553040424c42f58239d3c9e176ba"
+    },
+    {
+      "table": "researchlab_KKeys",
+      "count": 914,
+      "sha256": "cf118e75aa8a9d6a7bedfd910febbd6000035bc4f517366a44c72cd30724957c"
+    },
+    {
+      "table": "training_KArmory",
+      "count": 24,
+      "sha256": "711bc2d3c0b534de75266549fea71d499e2a62035392b86d00baeded8099b8d2"
+    },
+    {
+      "table": "items_KKeys",
+      "count": 3867,
+      "sha256": "9f58364e02e7acab8b46e61806bce71a0bc8920979ecad5c1bf69561154b7225"
+    }
+  ],
+  "note": "Read-only extraction. Static base values, not buff-adjusted costs or authoritative settlement."
+}

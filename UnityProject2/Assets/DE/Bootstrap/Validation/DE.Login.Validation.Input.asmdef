@@ -1,0 +1,6 @@
+{
+  "name": "DE.Login.Validation.Input",
+  "rootNamespace": "DE.Bootstrap.Validation",
+  "references": ["UnityEngine.UI"],
+  "autoReferenced": false
+}

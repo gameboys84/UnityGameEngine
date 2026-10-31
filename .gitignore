@@ -15,4 +15,8 @@ Thumbs.db
 /Design/reports/
 /Design/scripts/mcp-session.txt
 
-# Unity-specific rules belong to UnityProject1/.gitignore.
+# Build output from analysis helpers
+/Design/scripts/**/bin/
+/Design/scripts/**/obj/
+
+# Unity-specific rules belong to each Unity project's .gitignore.

@@ -1,0 +1,9 @@
+{
+  "name": "DE.Production.Loading.EditModeTests",
+  "references": ["DE.Production.Runtime", "DE.Production.Network"],
+  "overrideReferences": true,
+  "precompiledReferences": ["Newtonsoft.Json.dll", "nunit.framework.dll"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

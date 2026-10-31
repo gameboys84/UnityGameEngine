@@ -1,0 +1,6 @@
+{
+  "name": "DE.Production.Data",
+  "rootNamespace": "DE.Production.Data",
+  "references": ["Ni.GameCore", "TEngine.Runtime", "UniTask"],
+  "autoReferenced": true
+}

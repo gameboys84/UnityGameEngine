@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: a525571f0e4ef404496ef6b77a7d18c4
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Bahij TheSansArabic
+  fontNames:
+  - NotoSansJP-Regular-subset
+  - Noto Sans Thai
+  - Noto Sans Myanmar
+  - NotoSansCJKsc-Regular-subset
+  - NotoSans-Cyrillic-subset
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5d70a860a2ab20343b9184307270e99e, type: 3}
+  - {fileID: 12800000, guid: 5bd3a0f331f603c4db22dc58229a1f16, type: 3}
+  - {fileID: 12800000, guid: b99f0794f75d02b4b99ca8f35d5d1525, type: 3}
+  - {fileID: 12800000, guid: bff88a7873111b440ad346c286d520cf, type: 3}
+  - {fileID: 12800000, guid: f8e08993834c480c9a9bb9fbad1e0ccf, type: 3}
+  - {fileID: 12800000, guid: ec52ef131b7345d3bc1d5970eb584dd6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
